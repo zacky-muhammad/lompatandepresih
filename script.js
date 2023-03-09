@@ -1,37 +1,25 @@
-body {
-  background: #ff8800;
-  color: #f2efe2;
-  font-size: 16px;
+var character = document.getElementById('character');
+var block = document.getElementById('block');
+var counter = 0;
+function jump() {
+  if (character.classList == 'animate') {
+    return;
+  }
+  character.classList.add('animate');
+  setTimeout(function () {
+    character.classList.remove('animate');
+  }, 300);
 }
- 
- 
-button:focus {
-    outline: 0;
-}
- 
-.mycontainer {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 150px 100px;
-    text-align: center;
-}
- 
- 
-.mywebapp {
-    margin: 50px auto;
-}
- 
-#textbox {
-    margin: 30px 0;
-}
- 
-@media (max-width: 768px) {
-    .mycontainer {
-        width: 85vw;
-        max-width: 85vw;
-    }
- 
-    button {
-        margin-bottom: 10px;
-    }
-}
+var checkDead = setInterval(function () {
+  let characterTop = parseInt(window.getComputedStyle(character).getPropertyValue('top'));
+  let blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue('left'));
+  if (blockLeft < 20 && blockLeft > -20 && characterTop >= 130) {
+    block.style.animation = 'none';
+    alert('Game Over. score: ' + Math.floor(counter / 100));
+    counter = 0;
+    block.style.animation = 'block 1s infinite linear';
+  } else {
+    counter++;
+    document.getElementById('scoreSpan').innerHTML = Math.floor(counter / 100);
+  }
+}, 10);
